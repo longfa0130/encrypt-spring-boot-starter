@@ -1,5 +1,12 @@
 # encrypt-spring-boot-starter
-
+### maven坐标
+   ```xml
+   <dependency>
+      <groupId>cloud.longfa</groupId>
+      <artifactId>encrypt-spring-boot-starter</artifactId>
+      <version>1.0.2-RELEASE</version>
+   </dependency>
+   ```
 #### 介绍
 ## 数据加密框架
 ### 支持的场景 
