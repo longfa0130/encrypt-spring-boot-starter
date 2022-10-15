@@ -176,13 +176,13 @@
 
 *加密的整个调用过程*
 
-![](C:\Users\Administrator\Pictures\Saved Pictures\java\EncryptHandler_encrypt.svg)
+![](https://static.longfa.cloud/images/EncryptHandler_encrypt.svg)
 
 *解密处理过程*
 
-![](C:\Users\Administrator\Pictures\Saved Pictures\java\EncryptHandler_decrypt.svg)
+![](https://static.longfa.cloud/images/EncryptHandler_decrypt.svg)
 
-#### ![](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20221015234958851.png)
+![](https://static.longfa.cloud/images/image-20221015234958851.png)
 
 
 
