@@ -7,6 +7,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.expression.Expression;
+import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.lang.NonNull;
@@ -57,7 +58,13 @@ public class SpELExpressionHandler implements BeanFactoryAware, InitializingBean
         //解析实例 自定义模板 ::内容区::
         Expression parseExpression = this.spelExpressionParser.parseExpression(expression, SpELParserContext.PARSER_CONTEXT);
         //解析出数组
-        return parseExpression.getValue(standardContext,String[].class);
+        String[] value;
+        try {
+            value = parseExpression.getValue(standardContext, String[].class);
+        }catch (SpelEvaluationException spelEvaluationException){
+            throw new RuntimeException("无法解析你的所写的表达式 请检查");
+        }
+        return value;
     }
 
 
