@@ -8,7 +8,7 @@
    </dependency>
    ```
 #### 介绍
-## 数据加密框架
+## 数据加密 场景启动器
 ### 支持的场景 
 ##### 一 、数据传输加密解密
 ##### 二 、数据存储 加密解密
@@ -96,25 +96,6 @@
 
 设计模式: 策略模式
 
-### UML 时序图
-
-*加密的整个调用过程*
-
-#### ![](C:\Users\Administrator\Pictures\Saved Pictures\java\EncryptHandler_encrypt.svg)
-
-*解密处理过程*
-
- ![](C:\Users\Administrator\Pictures\Saved Pictures\java\EncryptHandler_decrypt.svg)
-![](https://static.longfa.cloud/images/EncryptHandler_encrypt.svg)
-*解密处理过程*
-
-![](https://static.longfa.cloud/images/EncryptHandler_decrypt.svg)
-
-![](https://static.longfa.cloud/images/image-20221015234958851.png)
-
-
-
-
 
 ### 安装教程
 
@@ -148,7 +129,18 @@
 
    ​						
 
-3.  ```java
+```java
+@EnableEncrypt  //开启加密 让加解密模块生效
+@SpringBootApplication
+public class Application {
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+
+}
+```
+
+```java
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
@@ -191,11 +183,140 @@
          */
         String value() default "";
     }
-    ```
+ ```
+```java
+   @Target(ElementType.METHOD)
+   @Retention(RetentionPolicy.RUNTIME)
+   @Documented
+   public @interface Decrypt {
+       /**
+        * 应用场景 网络传输、或者 持久化
+        *
+        * @return {@link  Scenario}
+        */
+       Scenario scenario() default Scenario.storage;
+   
+       /**
+        * 默认加密方式 AES算法加密
+        *
+        * @return {@link  CipherMode}
+        */
+       CipherMode cipher() default CipherMode.AES;
+   
+       /**
+        * 区分字段大小写 默认是不区分
+        *
+        * @return false boolean
+        */
+       boolean caseSensitive() default false;
+   
+       /**
+        * 加密的字段名方法加密需要指定字段名称 默认是对data字段解密
+        *
+        * @return the string [ ]
+        */
+       String[] fields() default {"data"};
+   
+       /**
+        * SpEL表达式   对SpEL表达式的支持
+        * * @beanName.method  or @beanName.field  the field not be -> private decorated
+        * * @ss.abc()  @ss.name
+        *
+        * @return the string
+        */
+       String value() default "";
+   }
 
-### 测试案例：
+```
+
+### 配置
+    
+   ```yaml
+   badger:
+     encrypt:
+       #AES加密配置
+       aes-iv: xxxxxxx #16位 偏移量
+       aes-key: xxxxxx
+       #RSA加密配置
+       public-key-base64: xxxxxx    #公钥
+       private-key-base64: xxxxxxx  #私钥
+
+```
+### 使用案例：
+写的是水了点 将就看 
+   ```java
+    //控制器
+       //传输加密 模拟从service获取数据 @ENC.SYSTEM_USER 同等 Fields.SYS_USER 同等 @ENC.custom()
+       // 更推荐 "@ENC.SYSTEM_USER"这种写法
+      @GetMapping("/aaa")
+      @Encrypt(value ="@ENC.SYSTEM_USER",cipher = CipherMode.RSA,scenario = Scenario.transmit)
+      public Map<String,List<Test>> getTest1(){
+            return queryData();
+      }
+
+       //传输解密
+       @PostMapping("/bbb")
+       @Decrypt(value = SPEL.SYS_USER,cipher = CipherMode.RSA,scenario = Scenario.transmit)
+       public Map<String,List<Test>> test1(@RequestBody Map<String,List<Test>> map){
+           return map;
+       }
 
 
+       //加密 解密 模拟存储场景 模拟多个参数 测试它会不会对request response有操作
+       @PostMapping("/ccc")
+       public void getTest2(@RequestBody Map<String,List<Test>> map, HttpServletRequest request,
+            HttpServletResponse response){
+            List<Test> testList = testService.testList(map.get("data"),request,response);
+            System.out.println(testList+"\n解密了");
+      }
+      
+      
+      //配置需要解密的参数参数
+      @Component("ENC")
+      public class SPEL {
+         //1 系统用户
+         public static final String SYS_USER = "@ENC.SYSTEM_USER";
+         // 待加密字段 地址、用户名、邮箱、密码
+         public static final String[] SYSTEM_USER = {"address","username","email","password"};
+
+
+         //1
+         public String[] custom(){
+            return new String[]{"address","username","email"};
+         }
+
+
+         //2
+         public static final String ADM_USER= "@ENC.ADMIN_USER";
+         //2
+         public static final String[] ADMIN_USER = {"username","password","email","card","phone"};
+
+      }
+```
+
+```java
+   //测试类 service层 模拟存储至数据库 从数据库取出数据 的加解密过程
+   @Service("testService")
+    public class TestService {
+
+   //or value = "@ENCRYPT.ADMIN_USER", 同等 Fields.ADM_USER
+   @Encrypt(value = SPEL.ADM_USER,cipher = CipherMode.AES,scenario = Scenario.storage)
+   @Decrypt(value = "@ENC.ADMIN_USER",cipher = CipherMode.AES,scenario = Scenario.storage)
+   public List<Test> testList(List<Test> testList, HttpServletRequest request, HttpServletResponse response){
+      System.out.println(testList+"\n加密了");
+      return testList;
+   }
+}
+```
+#### 当然 你也可以这样写
+```java
+    @RequestMapping("/efj")
+    @Decrypt(fields = {"password","card","address"},cipher = CipherMode.RSA,scenario = Scenario.transmit)
+    public Map<String,List<Test>> test1(@RequestBody Map<String,List<Test>> map){
+        return map;
+    }
+
+```
 
 ### 参与贡献
 
