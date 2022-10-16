@@ -31,129 +31,53 @@
 │      │      └─longfa
 │      │          └─encrypt
 │      │              ├─anotation
-│      │              │      Decrypt.java
-│      │              │      EnableEncrypt.java
-│      │              │      Encrypt.java
+│      │              │      Decrypt.java                   加密注解
+│      │              │      EnableEncrypt.java             导入模块注解
+│      │              │      Encrypt.java                   解密注解
 │      │              │      
 │      │              ├─aspectj
-│      │              │      EncryptHandler.java
+│      │              │      EncryptHandler.java            注解处理器 aop
 │      │              │      
 │      │              ├─badger
-│      │              │      HoneyBadgerEncrypt.java
+│      │              │      HoneyBadgerEncrypt.java        加密实现类
 │      │              │      
 │      │              ├─config
-│      │              │      AESConfiguration.java
-│      │              │      EncryptAutoConfiguration.java
-│      │              │      EncryptConfiguration.java
-│      │              │      EncryptImportSelector.java
-│      │              │      EncryptProvider.java
-│      │              │      RSAConfiguration.java
+│      │              │      AESConfiguration.java          AES配置
+│      │              │      EncryptAutoConfiguration.java  
+│      │              │      EncryptConfiguration.java      
+│      │              │      EncryptImportSelector.java     
+│      │              │      EncryptProvider.java           
+│      │              │      RSAConfiguration.java          RSA配置
 │      │              │      
 │      │              ├─cron
 │      │              │      CronServer.java
 │      │              │      
 │      │              ├─enums
-│      │              │      CipherMode.java
-│      │              │      Scenario.java
+│      │              │      CipherMode.java               算法枚举
+│      │              │      Scenario.java                 场景枚举
 │      │              │      
 │      │              ├─generator
-│      │              │      GeneratorSecretKey.java
+│      │              │      GeneratorSecretKey.java       密钥生成代理接口
 │      │              │      
 │      │              ├─handler
-│      │              │      ExecutorPostProcessor.java
-│      │              │      ScenarioEncryptSchedule.java
-│      │              │      ScenarioHandler.java
-│      │              │      ScenarioHolder.java
-│      │              │      ScenarioPostProcessor.java
-│      │              │      ScenarioSchedule.java
-│      │              │      StorageScenario.java
-│      │              │      TransmitScenario.java
+│      │              │      ExecutorPostProcessor.java    
+│      │              │      ScenarioEncryptSchedule.java 场景调度
+│      │              │      ScenarioHandler.java         场景处理
+│      │              │      ScenarioHolder.java          核心容器
+│      │              │      ScenarioPostProcessor.java   
+│      │              │      ScenarioSchedule.java        场景调度实现类
+│      │              │      StorageScenario.java         存储场景
+│      │              │      TransmitScenario.java        传输场景
 │      │              │      
 │      │              ├─register
-│      │              │      RegisterBeanDefinition.java
-│      │              │      
+│      │              │      RegisterBeanDefinition.java  注册密钥生成代理类
+│      │              │       
 │      │              ├─spel
-│      │              │      SpELExpressionHandler.java
-│      │              │      SpELParserContext.java
+│      │              │      SpELExpressionHandler.java   spel表达式处理类
+│      │              │      SpELParserContext.java       
 │      │              │      
 │      │              └─util
-│      │                      EncryptUtils.java
-│      │                      
-│      └─resources
-│          ├─config
-│          │      cron.setting
-│          │      
-│          └─META-INF
-│                  spring.factories
-│                  
-└─target
-    ├─classes
-    │  ├─cloud
-    │  │  └─longfa
-    │  │      └─encrypt
-    │  │          ├─anotation
-    │  │          │      Decrypt.class
-    │  │          │      EnableEncrypt.class
-    │  │          │      Encrypt.class
-    │  │          │      
-    │  │          ├─aspectj
-    │  │          │      EncryptHandler.class
-    │  │          │      
-    │  │          ├─badger
-    │  │          │      HoneyBadgerEncrypt.class
-    │  │          │      
-    │  │          ├─config
-    │  │          │      AESConfiguration.class
-    │  │          │      EncryptAutoConfiguration.class
-    │  │          │      EncryptConfiguration.class
-    │  │          │      EncryptImportSelector.class
-    │  │          │      EncryptProvider.class
-    │  │          │      RSAConfiguration.class
-    │  │          │      
-    │  │          ├─cron
-    │  │          │      CronServer.class
-    │  │          │      
-    │  │          ├─enums
-    │  │          │      CipherMode.class
-    │  │          │      Scenario.class
-    │  │          │      
-    │  │          ├─generator
-    │  │          │      GeneratorSecretKey.class
-    │  │          │      
-    │  │          ├─handler
-    │  │          │      ExecutorPostProcessor.class
-    │  │          │      ScenarioEncryptSchedule.class
-    │  │          │      ScenarioHandler$1.class
-    │  │          │      ScenarioHandler.class
-    │  │          │      ScenarioHolder.class
-    │  │          │      ScenarioPostProcessor.class
-    │  │          │      ScenarioSchedule$1.class
-    │  │          │      ScenarioSchedule.class
-    │  │          │      StorageScenario.class
-    │  │          │      TransmitScenario.class
-    │  │          │      
-    │  │          ├─register
-    │  │          │      RegisterBeanDefinition$1.class
-    │  │          │      RegisterBeanDefinition$GeneratorSecretKeyFactory.class
-    │  │          │      RegisterBeanDefinition.class
-    │  │          │      
-    │  │          ├─spel
-    │  │          │      SpELExpressionHandler.class
-    │  │          │      SpELParserContext$1.class
-    │  │          │      SpELParserContext.class
-    │  │          │      
-    │  │          └─util
-    │  │                  EncryptUtils.class
-    │  │                  
-    │  ├─config
-    │  │      cron.setting
-    │  │      
-    │  └─META-INF
-    │          spring-configuration-metadata.json
-    │          spring.factories
-    │          
-    └─generated-sources
-        └─annotation
+│      │                      EncryptUtils.java          工具类
 
 ```
 
@@ -176,19 +100,15 @@
 
 *加密的整个调用过程*
 
-<<<<<<< HEAD
 #### ![](C:\Users\Administrator\Pictures\Saved Pictures\java\EncryptHandler_encrypt.svg)
 
 *解密处理过程*
 
-#### ![](C:\Users\Administrator\Pictures\Saved Pictures\java\EncryptHandler_decrypt.svg)
-=======
+ ![](C:\Users\Administrator\Pictures\Saved Pictures\java\EncryptHandler_decrypt.svg)
 ![](https://static.longfa.cloud/images/EncryptHandler_encrypt.svg)
-
 *解密处理过程*
 
 ![](https://static.longfa.cloud/images/EncryptHandler_decrypt.svg)
->>>>>>> 81f88922e4ee7ff5e2f89cca355fa6875b80b2d0
 
 ![](https://static.longfa.cloud/images/image-20221015234958851.png)
 
