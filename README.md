@@ -153,9 +153,9 @@
     │          spring.factories
     │          
     └─generated-sources
-        └─annotations
-```
+        └─annotation
 
+```
 
 ### 软件架构
 软件架构说明
@@ -176,13 +176,21 @@
 
 *加密的整个调用过程*
 
+<<<<<<< HEAD
 #### ![](C:\Users\Administrator\Pictures\Saved Pictures\java\EncryptHandler_encrypt.svg)
 
 *解密处理过程*
 
 #### ![](C:\Users\Administrator\Pictures\Saved Pictures\java\EncryptHandler_decrypt.svg)
+=======
+![](https://static.longfa.cloud/images/EncryptHandler_encrypt.svg)
 
-#### ![](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20221015234958851.png)
+*解密处理过程*
+
+![](https://static.longfa.cloud/images/EncryptHandler_decrypt.svg)
+>>>>>>> 81f88922e4ee7ff5e2f89cca355fa6875b80b2d0
+
+![](https://static.longfa.cloud/images/image-20221015234958851.png)
 
 
 
