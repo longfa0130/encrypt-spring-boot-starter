@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.longfa</groupId>
     <artifactId>encrypt-spring-boot-starter</artifactId>
-    <version>1.0.2-RELEASE</version>
+    <version>1.0.3-RELEASE</version>
     <name>encrypt-spring-boot-starter</name>
-    <description>encrypt-spring-boot-starter 加解密框架 支持传输、存储两种场景 </description>
+    <description>encrypt-spring-boot-starter 加解密框架 支持混合模式 多场景 </description>
     <packaging>jar</packaging>
     <url>https://maven.apache.org</url>
 
@@ -30,7 +30,7 @@
         <developerConnection>scm:git:https://github.com/longfa0130/encrypt-spring-boot-starter.git</developerConnection>
         <url>https://github.com/longfa0130/encrypt-spring-boot-starter</url>
     </scm>
-
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -48,35 +48,41 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <scope>provided</scope>
         </dependency>
 <!--        SpEL表达式支持 依赖包-->
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-expression -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
             <version>${expression.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-crypto -->
 <!--      hutool-crypto  AES RSA DES BASE64 等等-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-crypto</artifactId>
             <version>${hutool-crypto.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on -->
 <!--      bcpkix-jdk15on  国密SM4 -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
             <version>${bcpkix-jdk15on.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop -->
 <!--        aop -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
