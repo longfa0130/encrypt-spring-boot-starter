@@ -207,7 +207,7 @@ public class HoneyBadgerEncrypt implements InitializingBean {
                     break;
                 }
                 String sm4Key = UUID.randomUUID().toString().replace("-", "").substring(0,16); //sm4的密钥 可变值
-                echo.info("偏移量不变sm4密钥---->"+sm4Key);
+                echo.info("偏移量不变 临时sm4密钥---->"+sm4Key);
                 rsaCiphertexts.put(CipherMode.SM4_RSA,rsa.encryptHex(sm4Key,StandardCharsets.UTF_8, KeyType.PublicKey));  //加密sm4密钥 将密钥放入容器
                 byte[] sm4KeyBytes = sm4Key.getBytes(StandardCharsets.UTF_8);
                 byte[] sm4_Key = SecureUtil.generateKey(SM4.ALGORITHM_NAME, sm4KeyBytes).getEncoded();//重新获取
@@ -220,7 +220,7 @@ public class HoneyBadgerEncrypt implements InitializingBean {
                     break;
                 }
                 String aesKey = UUID.randomUUID().toString().replace("-", ""); //aes的密钥
-                echo.info("偏移量不变aes密钥---->"+aesKey);
+                echo.info("偏移量不变 临时aes密钥---->"+aesKey);
                 rsaCiphertexts.put(CipherMode.AES_RSA , rsa.encryptHex(aesKey,StandardCharsets.UTF_8, KeyType.PublicKey));//加密aes密钥
                 byte[] bytes = aesKey.getBytes(StandardCharsets.UTF_8);
                 byte[] aes_key  = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue(), bytes).getEncoded();
