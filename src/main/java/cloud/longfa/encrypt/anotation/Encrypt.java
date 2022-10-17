@@ -44,7 +44,7 @@ public @interface Encrypt {
      *
      * @return the string [ ]
      */
-    String[] fields() default {"data"};
+    String[] fields() default {};
 
     /**
      * SpEL表达式  对SpEL表达式的支持
@@ -54,4 +54,11 @@ public @interface Encrypt {
      * @return the string
      */
     String value() default "";
+
+
+    /**
+     * 动态密钥 可变的密钥  支持混合算法 sm4-rsa aes-rsa {@CipherMode}
+     * @return the boolean
+     */
+    boolean dynamic() default false;
 }

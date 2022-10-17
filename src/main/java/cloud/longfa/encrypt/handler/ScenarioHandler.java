@@ -1,5 +1,6 @@
 package cloud.longfa.encrypt.handler;
 
+import cloud.longfa.encrypt.anotation.Badger;
 import cloud.longfa.encrypt.anotation.Decrypt;
 import cloud.longfa.encrypt.anotation.Encrypt;
 import cloud.longfa.encrypt.badger.HoneyBadgerEncrypt;
@@ -55,6 +56,8 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
             case AES:return honeyBadgerEncrypt.aesEncrypt(target.toString());
             case RSA:return honeyBadgerEncrypt.rsaEncrypt(target.toString());
             case SM4:return honeyBadgerEncrypt.sm4Encrypt(target.toString());
+            case SM4_RSA: return honeyBadgerEncrypt.sm4RsaEncrypt(target.toString());
+            case AES_RSA: return honeyBadgerEncrypt.aesRsaEncrypt(target.toString());
             default: return "No such algorithm Contact about:email---> longfa0130@gmail.com";
         }
     }
@@ -71,6 +74,8 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
             case AES: return honeyBadgerEncrypt.aesDecrypt(target.toString());
             case RSA: return honeyBadgerEncrypt.rsaDecrypt(target.toString());
             case SM4: return honeyBadgerEncrypt.sm4Decrypt(target.toString());
+            case SM4_RSA: return honeyBadgerEncrypt.sm4RsaDecrypt(target.toString());
+            case AES_RSA: return honeyBadgerEncrypt.aesRsaDecrypt(target.toString());
             default: return "No such algorithm Contact about:email---> longfa0130@gmail.com";
         }
     }
@@ -134,6 +139,17 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
             declaredField.setAccessible(true); //暴力访问
             for (String fieldName : fieldNames)
             {
+                //对注解的支持
+                Badger badgerAnnotation = declaredField.getAnnotation(Badger.class);
+                if (Objects.nonNull(badgerAnnotation)){
+                    Object encryptDate = declaredField.get(arg); //源文
+                    if (!badgerAnnotation.cipher().equals(CipherMode.DEFAULT)){
+                        cipherMode = badgerAnnotation.cipher();
+                    }
+                    declaredField.set(arg,encryptionProcessor(encryptDate,cipherMode));
+                    continue;
+                }
+                //以下支持 fields 属性 以及 value属性
                 if (declaredField.getName().equalsIgnoreCase(fieldName))
                 {
                     Object encryptDate = declaredField.get(arg);
@@ -203,6 +219,17 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
         for (Field declaredField : declaredFields) {  //当前字段可能是基本数据类型 也有可能是实体类
             declaredField.setAccessible(true); //暴力访问
             for (String fieldName : fieldNames) {
+                //对注解的支持
+                Badger badgerAnnotation = declaredField.getAnnotation(Badger.class);
+                if (Objects.nonNull(badgerAnnotation)){
+                    Object encryptDate = declaredField.get(process); //源文
+                    if (!badgerAnnotation.cipher().equals(CipherMode.DEFAULT)){
+                        cipherMode = badgerAnnotation.cipher();
+                    }
+                    declaredField.set(process,decryptionProcessor(encryptDate,cipherMode));
+                    continue;
+                }
+                //以下支持 fields 属性 以及 value属性
                 if (declaredField.getName().equalsIgnoreCase(fieldName))
                 {
                     Object encryptDate = declaredField.get(process);
@@ -270,6 +297,17 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
         for (Field declaredField : declaredFields) {  //当前字段可能是基本数据类型 也有可能是实体类
             declaredField.setAccessible(true); //暴力访问
             for (String fieldName : fieldNames) {
+                //对注解的支持
+                Badger badgerAnnotation = declaredField.getAnnotation(Badger.class);
+                if (Objects.nonNull(badgerAnnotation)){
+                    Object encryptDate = declaredField.get(process); //源文
+                    if (!badgerAnnotation.cipher().equals(CipherMode.DEFAULT)){
+                        cipherMode = badgerAnnotation.cipher();
+                    }
+                    declaredField.set(process,encryptionProcessor(encryptDate,cipherMode));
+                    continue;
+                }
+                //以下支持 fields 属性 以及 value属性
                 if (declaredField.getName().equalsIgnoreCase(fieldName))
                 {
                     Object encryptDate = declaredField.get(process);
@@ -360,6 +398,17 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
             declaredField.setAccessible(true); //暴力访问
             for (String fieldName : fieldList)
             {
+                //对注解的支持
+                Badger badgerAnnotation = declaredField.getAnnotation(Badger.class);
+                if (Objects.nonNull(badgerAnnotation)){
+                    Object encryptDate = declaredField.get(arg); //源文
+                    if (!badgerAnnotation.cipher().equals(CipherMode.DEFAULT)){
+                        cipherMode = badgerAnnotation.cipher();
+                    }
+                    declaredField.set(arg,decryptionProcessor(encryptDate,cipherMode));
+                    continue;
+                }
+                //以下支持 fields 属性 以及 value属性
                 if (declaredField.getName().equalsIgnoreCase(fieldName))
                 {
                     Object decryptDate = declaredField.get(arg);

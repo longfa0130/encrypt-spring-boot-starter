@@ -1,6 +1,5 @@
 package cloud.longfa.encrypt.config;
 
-import cloud.longfa.encrypt.enums.CipherMode;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,9 +23,7 @@ public class EncryptConfiguration {
     @Bean
     @ConditionalOnMissingBean(AESConfiguration.class)
     public AESConfiguration aesConfiguration(){
-        AESConfiguration aesConfiguration = new AESConfiguration();
-        EncryptProvider.encryptFactory.put(CipherMode.AES,aesConfiguration);
-        return aesConfiguration;
+        return new AESConfiguration();
     }
 
     /**
@@ -38,9 +35,17 @@ public class EncryptConfiguration {
     @Bean
     @ConditionalOnMissingBean(RSAConfiguration.class)
     public RSAConfiguration rsaConfiguration(){
-        RSAConfiguration rsaConfiguration = new RSAConfiguration();
-        EncryptProvider.encryptFactory.put(CipherMode.RSA,rsaConfiguration);
-        return rsaConfiguration;
+        return new RSAConfiguration();
+    }
+
+    /**
+     * SM4配置文件加载至加密容器
+     * @return the sm4 configuration
+     */
+    @Bean
+    @ConditionalOnMissingBean(SM4Configuration.class)
+    public SM4Configuration sm4Configuration(){
+        return new SM4Configuration();
     }
 
 }

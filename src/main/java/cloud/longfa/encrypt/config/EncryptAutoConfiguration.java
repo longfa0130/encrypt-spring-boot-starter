@@ -5,9 +5,11 @@ import cloud.longfa.encrypt.badger.HoneyBadgerEncrypt;
 import cloud.longfa.encrypt.handler.*;
 import cloud.longfa.encrypt.register.RegisterBeanDefinition;
 import cloud.longfa.encrypt.spel.SpELExpressionHandler;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.util.concurrent.Executor;
@@ -33,8 +35,8 @@ public class EncryptAutoConfiguration {
      */
     @Bean
     @ConditionalOnBean(value = {EncryptProvider.class})
-    public EncryptHandler encryptHandler(){
-        return new EncryptHandler();
+    public EncryptHandler encryptHandler(HoneyBadgerEncrypt honeyBadgerEncrypt){
+        return new EncryptHandler(honeyBadgerEncrypt);
     }
 
     /**
@@ -99,8 +101,9 @@ public class EncryptAutoConfiguration {
      * @return the honey badger encrypt
      */
     @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @ConditionalOnBean(EncryptHandler.class)
-    public HoneyBadgerEncrypt honeyBadgerEncrypt(){
+    public HoneyBadgerEncrypt getHoneyBadgerEncrypt(){
         HoneyBadgerEncrypt honeyBadgerEncrypt = new HoneyBadgerEncrypt();
         ScenarioHandler.honeyBadgerEncrypt = honeyBadgerEncrypt;
         return honeyBadgerEncrypt;

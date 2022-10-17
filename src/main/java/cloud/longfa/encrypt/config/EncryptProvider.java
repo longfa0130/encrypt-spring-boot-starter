@@ -66,5 +66,22 @@ public abstract class EncryptProvider {
         return rsaConfiguration.getPublicKeyBase64();
     }
 
+    /**
+     * sm4过密算法 配置key
+     * @return the string
+     */
+    public static String sm4Key(){
+       SM4Configuration sm4Configuration = (SM4Configuration) encryptFactory.get(CipherMode.SM4);
+       return sm4Configuration.getSm4Key();
+    }
 
+
+    /**
+     * 获取sm4偏移量
+     * @return 长度为16字节的字符串
+     */
+    public static String sm4Iv() {
+        SM4Configuration sm4Configuration = (SM4Configuration) encryptFactory.get(CipherMode.SM4);
+        return sm4Configuration.getSm4Iv();
+    }
 }
