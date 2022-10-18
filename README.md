@@ -12,7 +12,7 @@
 <dependency>
    <groupId>cloud.longfa</groupId>
    <artifactId>encrypt-spring-boot-starter</artifactId>
-   <version>1.0.3-RELEASE</version>
+   <version>1.0.5-RELEASE</version>
 </dependency>
    ```
 
