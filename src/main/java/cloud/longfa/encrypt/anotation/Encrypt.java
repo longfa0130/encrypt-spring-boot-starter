@@ -44,7 +44,7 @@ public @interface Encrypt {
      *
      * @return the string [ ]
      */
-    String[] fields() default {};
+    String[] fields() default {""};
 
     /**
      * SpEL表达式  对SpEL表达式的支持
