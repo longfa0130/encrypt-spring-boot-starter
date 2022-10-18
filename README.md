@@ -1,10 +1,6 @@
 # **encrypt-spring-boot-starter**
 
-版权所有 请勿抄袭！！！
-
-作者：longfa    email:longfa0130@163.com || longfa0130@gmail.com
-
-因为最近在接触存储加密 所以写了这个starter 喜欢的给个支持小星星 么么哒
+因为最近在接触存储加密 写了这个starter 喜欢的给个支持小星星 么么哒
 
 ## maven坐标
 
@@ -16,28 +12,32 @@
 </dependency>
    ```
 
+## 实现方案
+
+aop、反射机制、递归算法 、策略模式
+
 ## 优势
 
-1. **全注解、支持spel表达式(改造过、用法更简单)、支持任意字段、任意参数、任意请求方式 加解密**
-2. **多种场景加减密(传输场景、存储场景)**
+1. **全注解、支持spel表达式(改造过，易用)、支持任意字段、任意参数、任意请求方式**
+2. **支持多种场景(传输场景、存储场景)**
 3. **支持扩展其他场景(已经实现网络传输、存储加解密)**
 4. **支持扩展其他的加密算法**
-5. **支持的加密模式：单类算法加密（多参数一种算法）、多类算法混合(单个参数|字段单个算法)、混合模式(单个参数 多种算法)、混合模式之随机密钥**
+5. **支持的加密模式：单类算法加密（多参数单算法）、多类算法混合(单参数|字段单算法)、混合模式(单参数 多种算法)、混合模式之随机密钥**
 6. **支持任意请求方式 、任意多个参数、body 支持java集合、实体类等等**
-7. **支持RPC框架  远程调用**
-8. **支持任意多个字段|参数 任意多种加密算法同时用  前提是前端不会骂人！！！**
+7. **支持RPC框架  实现前端后、端对端数据加密**
+8. **支持任意多个字段|参数 任意多种加密算法同时用**
 
 ## 数据加密 场景启动器
 
 ### 支持的场景
 
-#### 一 、数据传输加密解密
+#### 一 、传输场景加密解密
 
-网络传输后端加减密 前端加解密没空写
+网络传输后端加减密 *前端加解密没空写*
 
 支持RPC框架 远程调用 多种算法混合使用  能控制到每一个字段 都使用独立的算法 不必担心解不了密！！！ 怎么加怎么解
 
-#### 二 、数据存储 加密解密
+#### 二 、存储场景 加密解密
 
 支持存储加解密 多种算法混合使用
 
@@ -49,13 +49,11 @@
 
 无限层 支持无限套娃！！！
 
-比如map里面套map 在嵌套list
-
-只要标识了该字段名 就是天涯海角 都能处理
+比如集合嵌套集合 支持多层级嵌套
 
 ## 支持的加密模式
 
-支持的加密算法 AES、RSA、SM4 混合加密 动态密钥混合加密 同时支持扩展其他算法
+支持的加密算法 AES、RSA、SM4 混合加密 动态密钥混合加密 同时也支持扩展其他算法
 
 1. 单模式加密：
 
@@ -63,7 +61,7 @@
 
 2. 多种算法单模式
 
-   一个接口下每一个参数使用单独的加密算法（不推荐这种 前端容易崩溃）
+   一个接口下每一个参数使用单独的加密算法
 
 3. 混合加密：
 
@@ -72,10 +70,6 @@
 4. 动态混合加密：
 
    密钥是随机生成  每一次请求密钥都是不一样 提供了外部获取密钥的方式
-
-## 实现方案
-
-动态代理、递归算法 策略模式 工厂模式
 
 ## 目录结构
 
@@ -148,7 +142,7 @@
    <dependency>
       <groupId>cloud.longfa</groupId>
       <artifactId>encrypt-spring-boot-starter</artifactId>
-      <version>1.0.2-RELEASE</version>
+      <version>1.0.5-RELEASE</version>
    </dependency>
    ```
 
@@ -171,7 +165,7 @@ badger:
 
 ## 注解参数说明
 
-- 在启动类上添加 **@EnableEncrypt** 注解  表示 启用加密模块
+- > 在启动类上标注 **@EnableEncrypt** 注解  表示 启用加密模块
 - 加密注解：**@Encrypt**
 - 解密注解：**@Decypt**
 - 字段注解：**@Badger**
@@ -311,20 +305,20 @@ boolean dynamic() default false;
 启动类上标注 @EnableEncrypt
 
 ```java
-@EnableEncrypt  //开启加密 让加解密模块生效 ！！！不标注模块就不生效
+@EnableEncrypt  //启动该模块 不标注不生效！！！
 @SpringBootApplication
-public class Application {
+public class TestApplication {
    public static void main(String[] args) {
-      SpringApplication.run(Application.class, args);
+      SpringApplication.run(TestApplication.class, args);
    }
 }
 ```
 
 ### （一） 、传输场景案例
 
-*非混合加密*
+*非混合加密模式*
 
-#### 1.1   **简单除暴法**
+#### 1.1   **简单易用法**
 
 *@Encrypt 安装字段进行加解密 属性： fields = {"username","password"}  不光是对字段名生效 参数也生效*  AES加密 那么就用AES解密
 
@@ -569,9 +563,9 @@ public class ResponseAdvice implements ResponseBodyAdvice {
     @Nullable
     @Override
     public Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        // 拿到密钥 必设置到响应头 前端获取 通过RSA解密获取AES密钥 再通过AES解密器对密文解密
+        // 拿到密钥 设置到响应头 前端获取 通过RSA解密获取AES密钥 再通过AES解密器对密文解密
         response.getHeaders().set(AESKEY, HoneyBadgerEncrypt.getAesKeyRSACiphertext());  
-        //拿到密钥 必设置到响应头 前端获取 通过RSA解密获取SM4密钥 再通过SM4解密器对密文解密
+        //拿到密钥 设置到响应头 前端获取 通过RSA解密获取SM4密钥 再通过SM4解密器对密文解密
         response.getHeaders().set(SM4KEY,HoneyBadgerEncrypt.getSm4KeyRSACiphertext());
         return body;
     }
@@ -628,7 +622,7 @@ public Map<String,List<Test>> getTest1(){
 
 
 
-### 2.3  存储场景案例
+### (三)  存储场景案例
 
 传输场景你会了  那么存储场景就是so easy!!!   设置 scenario = Scenario.storage
 
@@ -684,10 +678,12 @@ public Map<String,List<Test>> getTest1(){
 
 ## 参与贡献
 
-写的也不好 您有好的想法 欢迎提出来 一起完善！！！
-
-不懂的联系我 远程为你协助
+写的潦草 您有好的想法或者意见 欢迎提出来 一同完善！！！
 
 ## 性能
 
-自己去测试  取决于你的设备
+cpu：轻薄本 i7 8550u 
+
+混合加密 8万条数据 耗时 2.5秒左右 解密 1.8秒 没有出现栈内存溢出这种极端的情况
+
+作者：longfa    email:longfa0130@163.com || longfa0130@gmail.com
