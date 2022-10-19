@@ -1,5 +1,4 @@
 # **encrypt-spring-boot-starter**
-
 ## maven坐标
 
    ```xml
@@ -9,6 +8,8 @@
    <version>1.0.5-RELEASE</version>
 </dependency>
    ```
+
+WEB应用加解密请查看此根目录WEBAPP.md文档  配套使用
 
 ## 实现方案
 

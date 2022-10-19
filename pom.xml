@@ -6,7 +6,7 @@
     <artifactId>encrypt-spring-boot-starter</artifactId>
     <version>1.0.5-RELEASE</version>
     <name>encrypt-spring-boot-starter</name>
-    <description>encrypt-spring-boot-starter 修复上个版本遗留的问题 </description>
+    <description>encrypt-spring-boot-starter</description>
     <packaging>jar</packaging>
     <url>https://maven.apache.org</url>
 
