@@ -90,7 +90,7 @@ public class HoneyBadgerEncrypt implements InitializingBean {
         AES_IV = aesIv.getBytes(StandardCharsets.UTF_8);
 
         aes = new AES(Mode.CTS, Padding.PKCS5Padding,AES_KEY,AES_IV);
-        rsa = new RSA(AsymmetricAlgorithm.RSA.toString(),PRIVATE_KEY,PUBLIC_KEY);
+        rsa = new RSA(AsymmetricAlgorithm.RSA_ECB_PKCS1.getValue(),PRIVATE_KEY,PUBLIC_KEY);
 
         byte[] sm4KeyBytes = EncryptProvider.sm4Key().getBytes(StandardCharsets.UTF_8);
         SM4_IV = EncryptProvider.sm4Iv().getBytes(StandardCharsets.UTF_8);
@@ -113,7 +113,7 @@ public class HoneyBadgerEncrypt implements InitializingBean {
      * @return 加密字符串 16进制
      */
     public  String aesEncrypt(String content){
-        return aes.encryptHex(content,StandardCharsets.UTF_8);
+        return aes.encryptHex(content, StandardCharsets.UTF_8);
     }
 
     /**
@@ -153,7 +153,7 @@ public class HoneyBadgerEncrypt implements InitializingBean {
      * @return 密文 string
      */
     public String rsaEncrypt(String content){
-       return rsa.encryptHex(content,CharsetUtil.CHARSET_UTF_8, KeyType.PublicKey);
+       return rsa.encryptHex(content,StandardCharsets.UTF_8,KeyType.PublicKey);
     }
 
     /**
@@ -163,7 +163,7 @@ public class HoneyBadgerEncrypt implements InitializingBean {
      * @return 明文 string
      */
     public String rsaDecrypt(String encrypt){
-        return rsa.decryptStr(encrypt,KeyType.PrivateKey,CharsetUtil.CHARSET_UTF_8);
+        return rsa.decryptStr(encrypt, KeyType.PrivateKey, CharsetUtil.CHARSET_UTF_8);
     }
 
 

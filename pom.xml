@@ -83,6 +83,11 @@
             <version>${bcpkix-jdk15on.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.70</version>
+        </dependency>
 <!--        aop -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
