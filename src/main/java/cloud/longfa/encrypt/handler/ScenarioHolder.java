@@ -2,6 +2,7 @@ package cloud.longfa.encrypt.handler;
 
 import cloud.longfa.encrypt.anotation.Decrypt;
 import cloud.longfa.encrypt.anotation.Encrypt;
+import cloud.longfa.encrypt.enums.CipherMode;
 import cloud.longfa.encrypt.enums.Scenario;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -30,6 +31,42 @@ public interface ScenarioHolder {
      */
     ArrayList<ScenarioSchedule> scenarioSchedules = new ArrayList<>();  //存储所有的调度器
 
+    /**
+     * 字段对应的算法
+     */
+    ConcurrentHashMap<String, CipherMode> fieldNames = new ConcurrentHashMap<>();
+
+    /**
+     * 记录字段对应的算法
+     * @param fieldName 字段名
+     * @param cipherMode 算法
+     */
+    static void addField(String fieldName,CipherMode cipherMode){
+        fieldNames.put(fieldName,cipherMode);
+    }
+    /**
+     * 记录字段对应的算法
+     * @return  the CipherMode
+     */
+    static String getFieldCipherModes(){
+        ConcurrentHashMap.KeySetView<String, CipherMode> keySetView = fieldNames.keySet();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String filedName : keySetView) {
+            stringBuilder.append(filedName)
+                         .append(":").append(fieldNames.get(filedName))
+                         .append("-");
+        }
+        String newStr = "";
+        if (stringBuilder.length() > 0){
+            int lastIndexOf = stringBuilder.lastIndexOf("-");
+            newStr = stringBuilder.substring(0,lastIndexOf);
+        }
+        try {
+            return newStr;
+        }finally {
+            fieldNames.clear();
+        }
+    }
     /**
      * Gets scenarios.
      *

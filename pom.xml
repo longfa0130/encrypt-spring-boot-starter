@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.longfa</groupId>
     <artifactId>encrypt-spring-boot-starter</artifactId>
-    <version>1.0.5-RELEASE</version>
+    <version>1.0.6-RELEASE</version>
     <name>encrypt-spring-boot-starter</name>
     <description>encrypt-spring-boot-starter</description>
     <packaging>jar</packaging>

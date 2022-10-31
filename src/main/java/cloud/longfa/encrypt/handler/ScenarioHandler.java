@@ -100,6 +100,7 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
         for (String fieldName : fieldNames) {
             for (int i = 0; i < parameterNames.length; i++) {
                 if (parameterNames[i].equalsIgnoreCase(fieldName) && Objects.nonNull(args[i]) && StringUtils.hasText(args[i].toString())) {  //不考虑大小写
+                    ScenarioHolder.fieldNames.put(parameterNames[i],cipherMode);
                     args[i] = encryptionProcessor(args[i],cipherMode);
                 }
             }
@@ -146,6 +147,7 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
                     if (!badgerAnnotation.cipher().equals(CipherMode.DEFAULT)){
                         cipherMode = badgerAnnotation.cipher();
                     }
+                    ScenarioHolder.fieldNames.put(declaredField.getName(),cipherMode);
                     declaredField.set(arg,encryptionProcessor(encryptDate,cipherMode));
                     continue;
                 }
@@ -157,6 +159,7 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
                     {
                         continue;
                     }
+                    ScenarioHolder.fieldNames.put(declaredField.getName(),cipherMode);
                     declaredField.set(arg, encryptionProcessor(encryptDate,cipherMode));
                 }
             }
@@ -304,6 +307,7 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
                     if (!badgerAnnotation.cipher().equals(CipherMode.DEFAULT)){
                         cipherMode = badgerAnnotation.cipher();
                     }
+                    ScenarioHolder.fieldNames.put(declaredField.getName(),cipherMode);
                     declaredField.set(process,encryptionProcessor(encryptDate,cipherMode));
                     continue;
                 }
@@ -315,6 +319,7 @@ public abstract class ScenarioHandler  implements ScenarioHolder {
                     {
                         continue;
                     }
+                    ScenarioHolder.fieldNames.put(declaredField.getName(),cipherMode);
                     declaredField.set(process,encryptionProcessor(encryptDate.toString(), cipherMode) );
                 }
             }

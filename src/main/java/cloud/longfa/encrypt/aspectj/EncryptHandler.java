@@ -48,7 +48,12 @@ public class EncryptHandler{
         if (encrypt.cipher().equals(CipherMode.SM4_RSA) || encrypt.cipher().equals(CipherMode.AES_RSA)){
             honeyBadgerEncrypt.initHybridEncryption(encrypt.cipher(),encrypt.dynamic());
         }
-        return ScenarioHolder.scenarioSchedule(joinPoint);
+        try {
+            return ScenarioHolder.scenarioSchedule(joinPoint);
+        }finally {
+            HoneyBadgerEncrypt.rsaCiphertexts.clear();
+            HoneyBadgerEncrypt.symmetricCryptos.clear();
+        }
     }
 
     /**
@@ -65,6 +70,11 @@ public class EncryptHandler{
         if (decrypt.cipher().equals(CipherMode.SM4_RSA) || decrypt.cipher().equals(CipherMode.AES_RSA)){
             honeyBadgerEncrypt.initHybridDecryption(decrypt.cipher(),decrypt.dynamic());
         }
-        return ScenarioHolder.scenarioSchedule(joinPoint);
+        try {
+            return ScenarioHolder.scenarioSchedule(joinPoint);
+        }finally {
+            HoneyBadgerEncrypt.rsaCiphertexts.clear();
+            HoneyBadgerEncrypt.symmetricCryptos.clear();
+        }
     }
 }
